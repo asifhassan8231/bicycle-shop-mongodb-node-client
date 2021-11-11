@@ -21,26 +21,26 @@ const Navigation = () => {
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
                         VOLCANO BICYCLE
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}><Button color="inherit">Login/Register</Button></Link>
                 </Toolbar>
             </AppBar>
             <AppBar position="static" sx={{ bgcolor: '#ff9e80', color: 'black' }}>
                 <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
 
                     <Link to="/home" style={{ textDecoration: 'none', marginRight: '20px' }}>
-                        <Button sx={{ bgcolor: '#ff8a65', color: 'red', borderBottom: 1, borderColor: 'error.main', fontWeight: 'bold' }}>
+                        <Button sx={{ bgcolor: '#ff8a65', color: 'maroon', borderBottom: 1, borderColor: 'error.main', fontWeight: 600 }}>
                             Home
                         </Button>
                     </Link>
 
                     <Link to="/explore" style={{ textDecoration: 'none', marginRight: '20px' }}>
-                        <Button sx={{ bgcolor: '#ff8a65', color: 'red', borderBottom: 1, borderColor: 'error.main', fontWeight: 'bold' }}>
+                        <Button sx={{ bgcolor: '#ff8a65', color: 'maroon', borderBottom: 1, borderColor: 'error.main', fontWeight: 300 }}>
                             Explore More
                         </Button>
                     </Link>
 
                     <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Button sx={{ bgcolor: '#ff8a65', color: 'red', borderBottom: 1, borderColor: 'error.main', fontWeight: 'bold' }}>
+                        <Button sx={{ bgcolor: '#ff8a65', color: 'maroon', borderBottom: 1, borderColor: 'error.main', fontWeight: 300 }}>
                             Dashboard
                         </Button>
                     </Link>
