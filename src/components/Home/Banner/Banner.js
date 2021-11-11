@@ -25,8 +25,8 @@ const Banner = () => {
                     <Grid item xs={12} md={6} >
                         <Typography variant='h2' sx={{ mb: 3, fontWeight: 'bold' }} style={{
                             background: 'linear-gradient(to right, #fbe9e7 0%, #ffab91 100%)',
-                            webkitBackgroundClip: 'text',
-                            webkitTextFillColor: 'transparent'
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent'
                         }}>
                             A New Journey Begins...
                         </Typography>
