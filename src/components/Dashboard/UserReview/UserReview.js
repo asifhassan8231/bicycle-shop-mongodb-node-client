@@ -18,7 +18,7 @@ const UserReview = () => {
     }
 
     const handleReviewSubmit = e => {
-        axios.post('http://localhost:5000/reviews', review)
+        axios.post('https://calm-journey-16674.herokuapp.com/reviews', review)
             .then(response => {
                 if (response.data.acknowledged) {
                     e.target.reset();

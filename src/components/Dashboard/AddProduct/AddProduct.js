@@ -16,7 +16,7 @@ const AddProduct = () => {
     }
 
     const handleProductSubmit = e => {
-        axios.post('http://localhost:5000/products', addProduct)
+        axios.post('https://calm-journey-16674.herokuapp.com/products', addProduct)
             .then(response => {
                 if (response.data.acknowledged) {
                     e.target.reset();

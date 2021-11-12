@@ -8,7 +8,7 @@ const Products = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/products')
+        fetch('https://calm-journey-16674.herokuapp.com/products')
             .then(res => res.json())
             .then(data => {
                 const slicedArray = data.slice(0, 6);

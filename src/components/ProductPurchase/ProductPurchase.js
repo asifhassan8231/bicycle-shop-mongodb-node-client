@@ -16,7 +16,7 @@ const ProductPurchase = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/products/${id}`)
+        fetch(`https://calm-journey-16674.herokuapp.com/products/${id}`)
             .then(res => res.json())
             .then(data => {
                 setProduct(data);
@@ -36,7 +36,7 @@ const ProductPurchase = () => {
     }
 
     const handlePurchase = e => {
-        axios.post('http://localhost:5000/orders', order)
+        axios.post('https://calm-journey-16674.herokuapp.com/orders', order)
             .then(response => {
                 if (response.data.acknowledged) {
                     e.target.reset();
