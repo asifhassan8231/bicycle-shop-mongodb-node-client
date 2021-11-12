@@ -1,13 +1,38 @@
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Alert, Button, Container, Snackbar, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 const AddProduct = () => {
+    const [addProduct, setAddProduct] = useState({});
+    const [open, setOpen] = React.useState(false);
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newProduct = { ...addProduct };
+        newProduct[field] = value;
+        setAddProduct(newProduct);
+    }
 
     const handleProductSubmit = e => {
-
+        axios.post('http://localhost:5000/products', addProduct)
+            .then(response => {
+                if (response.data.acknowledged) {
+                    e.target.reset();
+                    setOpen(true);
+                }
+            })
         e.preventDefault();
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     return (
         <Container>
@@ -19,7 +44,10 @@ const AddProduct = () => {
                         label="Product Title"
                         multiline
                         maxRows={4}
-                        sx={{ width: '50%' }}
+                        sx={{ width: '75%' }}
+                        type="text"
+                        name="title"
+                        onBlur={handleOnBlur}
                     />
                     <br />
                     <br />
@@ -29,7 +57,9 @@ const AddProduct = () => {
                         multiline
                         type="number"
                         maxRows={2}
-                        sx={{ width: '50%' }}
+                        sx={{ width: '75%' }}
+                        name="price"
+                        onBlur={handleOnBlur}
                     />
                     <br />
                     <br />
@@ -38,7 +68,10 @@ const AddProduct = () => {
                         label="Image Url"
                         multiline
                         maxRows={4}
-                        sx={{ width: '50%' }}
+                        sx={{ width: '75%' }}
+                        type="text"
+                        name="img"
+                        onBlur={handleOnBlur}
                     />
                     <br />
                     <br />
@@ -47,13 +80,21 @@ const AddProduct = () => {
                         label="Product Details"
                         multiline
                         rows={4}
-                        sx={{ width: '50%' }}
+                        sx={{ width: '75%' }}
+                        type="text"
+                        name="detail"
+                        onBlur={handleOnBlur}
                     />
                     <br />
                     <br />
-                    <Button variant="contained" type="submit" sx={{ width: '50%' }} color="warning">ADD</Button>
+                    <Button variant="contained" type="submit" sx={{ width: '75%' }} color="warning">ADD</Button>
                 </form>
             </Box>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Added Product Successfully!!
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };
