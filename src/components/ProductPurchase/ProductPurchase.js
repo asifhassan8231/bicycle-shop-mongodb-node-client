@@ -1,12 +1,18 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Container, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, Card, CardContent, CardHeader, CardMedia, Container, Grid, Snackbar, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import useAuth from '../../hooks/useAuth';
 import Footer from '../Shared/Footer/Footer';
 import Navigation from '../Shared/Navigation/Navigation';
 
 const ProductPurchase = () => {
+    const [open, setOpen] = React.useState(false);
     const [product, setProduct] = useState({});
+    const [order, setOrder] = useState({});
+
+    const { user } = useAuth();
     const { id } = useParams();
 
     useEffect(() => {
@@ -14,17 +20,39 @@ const ProductPurchase = () => {
             .then(res => res.json())
             .then(data => {
                 setProduct(data);
+                const initialInfo = { displayName: user.displayName, email: user.email, productId: data._id, productTitle: data.title };
+                setOrder(initialInfo);
             })
-    }, [id])
+    }, [id, user.displayName, user.email])
 
-    const { detail, img, price, title, _id } = product;
+    const { detail, img, price, title } = product;
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newOrder = { ...order };
+        newOrder[field] = value;
+        setOrder(newOrder);
+    }
 
     const handlePurchase = e => {
-
+        axios.post('http://localhost:5000/orders', order)
+            .then(response => {
+                if (response.data.acknowledged) {
+                    e.target.reset();
+                    setOpen(true);
+                }
+            })
         e.preventDefault();
     }
 
-    // const user = { displayName: "asif", email: "asif@hassan.com" };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     return (
         <>
@@ -62,8 +90,10 @@ const ProductPurchase = () => {
                                     sx={{ width: '80%' }}
                                     label="Name"
                                     id="outlined-size-small"
-                                    // defaultValue={user.displayName}
+                                    defaultValue={user.displayName}
                                     size="small"
+                                    type="text"
+                                    name="displayName"
                                 />
                                 <br />
                                 <br />
@@ -73,8 +103,9 @@ const ProductPurchase = () => {
                                     sx={{ width: '80%' }}
                                     label="Email"
                                     id="outlined-size-small"
-                                    // defaultValue={user.email}
+                                    defaultValue={user.email}
                                     size="small"
+                                    name="email"
                                 />
                                 <br />
                                 <br />
@@ -85,6 +116,9 @@ const ProductPurchase = () => {
                                     label="Address"
                                     id="outlined-size-small"
                                     size="small"
+                                    type="text"
+                                    name="address"
+                                    onBlur={handleOnBlur}
                                 />
                                 <br />
                                 <br />
@@ -94,6 +128,8 @@ const ProductPurchase = () => {
                                     label="Phone Number"
                                     id="outlined-size-small"
                                     size="small"
+                                    name="phone"
+                                    onBlur={handleOnBlur}
                                 />
                                 <br />
                                 <br />
@@ -103,12 +139,19 @@ const ProductPurchase = () => {
                                     label="Quantity"
                                     id="outlined-size-small"
                                     size="small"
+                                    name="quantity"
+                                    onBlur={handleOnBlur}
                                 />
                                 <br />
                                 <br />
                                 <Button variant="contained" type="submit" sx={{ width: '80%' }} color="warning">Order</Button>
                             </form>
                         </Box>
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                Order Successfully Made!!
+                            </Alert>
+                        </Snackbar>
                     </Grid>
                 </Grid>
             </Container>
