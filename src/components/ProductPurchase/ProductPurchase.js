@@ -24,7 +24,7 @@ const ProductPurchase = () => {
         e.preventDefault();
     }
 
-    const user = { displayName: "asif", email: "asif@hassan.com" };
+    // const user = { displayName: "asif", email: "asif@hassan.com" };
 
     return (
         <>
@@ -62,7 +62,7 @@ const ProductPurchase = () => {
                                     sx={{ width: '80%' }}
                                     label="Name"
                                     id="outlined-size-small"
-                                    defaultValue={user.displayName}
+                                    // defaultValue={user.displayName}
                                     size="small"
                                 />
                                 <br />
@@ -73,7 +73,7 @@ const ProductPurchase = () => {
                                     sx={{ width: '80%' }}
                                     label="Email"
                                     id="outlined-size-small"
-                                    defaultValue={user.email}
+                                    // defaultValue={user.email}
                                     size="small"
                                 />
                                 <br />
