@@ -16,10 +16,13 @@ import ManageProduct from '../ManageProduct/ManageProduct';
 import UserOrder from '../UserOrder/UserOrder';
 import UserPayment from '../UserPayment/UserPayment';
 import UserReview from '../UserReview/UserReview';
+import useAuth from '../../../hooks/useAuth';
+import AdminRoute from '../../Login/AdminRoute/AdminRoute';
 
 const drawerWidth = 200;
 
 const Dashboard = (props) => {
+    const { admin } = useAuth();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
@@ -34,13 +37,17 @@ const Dashboard = (props) => {
             <Divider />
             <List >
                 <ListItem style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Link to={`${url}/manageOrder`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Manage Orders</Link>
-                    <Link to={`${url}/addProduct`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Add Product</Link>
-                    <Link to={`${url}/manageProduct`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Manage Products</Link>
-                    <Link to={`${url}/makeAdmin`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Make Admin</Link>
-                    <Link to={`${url}/userOrder`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>My Orders</Link>
-                    <Link to={`${url}/userReview`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Review</Link>
-                    <Link to={`${url}/userPayment`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Payment</Link>
+                    {admin ? <>
+                        <Link to={`${url}/manageOrder`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Manage Orders</Link>
+                        <Link to={`${url}/addProduct`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Add Product</Link>
+                        <Link to={`${url}/manageProduct`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Manage Products</Link>
+                        <Link to={`${url}/makeAdmin`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Make Admin</Link>
+                    </>
+                        : <>
+                            <Link to={`${url}/userOrder`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>My Orders</Link>
+                            <Link to={`${url}/userReview`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Review</Link>
+                            <Link to={`${url}/userPayment`} style={{ textDecoration: 'none', color: 'orangeRed', fontSize: '20px', fontWeight: 300, borderBottom: '1px solid orange', marginBottom: '20px' }}>Payment</Link>
+                        </>}
                     <Link to='/home' style={{ textDecoration: 'none', color: 'red', fontSize: '20px', fontWeight: 500, borderBottom: '1px solid orange', marginBottom: '20px' }}>Back To Home</Link>
                 </ListItem>
 
@@ -126,18 +133,18 @@ const Dashboard = (props) => {
                         <Route exact path={path}>
                             <DashboardMain></DashboardMain>
                         </Route>
-                        <Route path={`${path}/makeAdmin`}>
+                        <AdminRoute path={`${path}/makeAdmin`}>
                             <MakeAdmin></MakeAdmin>
-                        </Route>
-                        <Route path={`${path}/addProduct`}>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/addProduct`}>
                             <AddProduct></AddProduct>
-                        </Route>
-                        <Route path={`${path}/manageOrder`}>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/manageOrder`}>
                             <ManageOrder></ManageOrder>
-                        </Route>
-                        <Route path={`${path}/manageProduct`}>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/manageProduct`}>
                             <ManageProduct></ManageProduct>
-                        </Route>
+                        </AdminRoute>
                         <Route path={`${path}/userOrder`}>
                             <UserOrder></UserOrder>
                         </Route>
