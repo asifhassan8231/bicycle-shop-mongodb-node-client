@@ -20,7 +20,7 @@ const ProductPurchase = () => {
             .then(res => res.json())
             .then(data => {
                 setProduct(data);
-                const initialInfo = { displayName: user.displayName, email: user.email, productId: data._id, productTitle: data.title };
+                const initialInfo = { displayName: user.displayName, email: user.email, productId: data._id, productTitle: data.title, status: 'pending' };
                 setOrder(initialInfo);
             })
     }, [id, user.displayName, user.email])
