@@ -12,7 +12,7 @@ const ManageOrder = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/orders')
+        fetch('https://calm-journey-16674.herokuapp.com/orders')
             .then(res => res.json())
             .then(data => {
                 setOrders(data);
@@ -21,7 +21,7 @@ const ManageOrder = () => {
 
     const handleStatusUpdate = id => {
         const updatedOrder = { id };
-        fetch('http://localhost:5000/orders/update', {
+        fetch('https://calm-journey-16674.herokuapp.com/orders/update', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -38,7 +38,7 @@ const ManageOrder = () => {
 
     useEffect(() => {
         if (confirm === true) {
-            fetch(`http://localhost:5000/orders/${orderId}`, {
+            fetch(`https://calm-journey-16674.herokuapp.com/orders/${orderId}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())

@@ -11,7 +11,7 @@ const ManageProduct = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/products')
+        fetch('https://calm-journey-16674.herokuapp.com/products')
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
@@ -21,7 +21,7 @@ const ManageProduct = () => {
 
     useEffect(() => {
         if (confirm === true) {
-            fetch(`http://localhost:5000/products/${productId}`, {
+            fetch(`https://calm-journey-16674.herokuapp.com/products/${productId}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())

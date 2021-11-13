@@ -13,7 +13,7 @@ const UserOrder = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/orders/${user.email}`)
+        fetch(`https://calm-journey-16674.herokuapp.com/orders/${user.email}`)
             .then(res => res.json())
             .then(data => {
                 setOrders(data);
@@ -23,7 +23,7 @@ const UserOrder = () => {
 
     useEffect(() => {
         if (confirm === true) {
-            fetch(`http://localhost:5000/orders/${orderId}`, {
+            fetch(`https://calm-journey-16674.herokuapp.com/orders/${orderId}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
