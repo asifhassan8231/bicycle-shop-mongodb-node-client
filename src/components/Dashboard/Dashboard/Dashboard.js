@@ -1,4 +1,4 @@
-import { AppBar, Container, CssBaseline, Divider, Drawer, IconButton, List, ListItem, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, CssBaseline, Divider, Drawer, IconButton, List, ListItem, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,7 +22,7 @@ import AdminRoute from '../../Login/AdminRoute/AdminRoute';
 const drawerWidth = 200;
 
 const Dashboard = (props) => {
-    const { admin } = useAuth();
+    const { admin, logout } = useAuth();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
@@ -53,7 +53,7 @@ const Dashboard = (props) => {
 
             </List>
             <Divider />
-
+            <Button color="warning" sx={{ my: 1 }} variant="contained" onClick={logout}>Logout</Button>
 
         </div>
     );

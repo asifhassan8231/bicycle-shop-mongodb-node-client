@@ -1,10 +1,15 @@
-import { Alert, Button, Container, Grid, Paper, Snackbar, Typography } from '@mui/material';
+import { Alert, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Snackbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 
 const ManageOrder = () => {
     const [orders, setOrders] = useState([]);
     const [open, setOpen] = React.useState(false);
+    const [cancelOpen, setCancelOpen] = React.useState(false);
+    const [alertOpen, setAlertOpen] = React.useState(false);
+    const [confirm, setConfirm] = React.useState(false);
+    const [orderId, setOrderId] = React.useState('');
+
 
     useEffect(() => {
         fetch('http://localhost:5000/orders')
@@ -31,22 +36,33 @@ const ManageOrder = () => {
             })
     }
 
-    const handleCancelButton = (id) => {
-        const confirm = window.confirm('Are you sure about that?')
-        if (confirm) {
-            fetch(`http://localhost:5000/orders/${id}`, {
+    useEffect(() => {
+        if (confirm === true) {
+            fetch(`http://localhost:5000/orders/${orderId}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
                 .then(data => {
                     if (data.deletedCount === 1) {
-                        const remainingOrders = orders.filter(order => order._id !== id);
+                        setCancelOpen(true);
+                        const remainingOrders = orders.filter(order => order._id !== orderId);
                         setOrders(remainingOrders);
                     }
                 })
         }
+        else {
+            return;
+        }
+    }, [orderId, confirm, orders])
 
-    }
+
+    const handleClickOpen = () => {
+        setAlertOpen(true);
+    };
+
+    const handleAlertClose = () => {
+        setAlertOpen(false);
+    };
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -55,7 +71,19 @@ const ManageOrder = () => {
         setOpen(false);
     };
 
+    const handleCancelClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setCancelOpen(false);
+    };
 
+    const pendingStyle = {
+        color: 'orange'
+    }
+    const shippedStyle = {
+        color: 'green'
+    }
 
     return (
         <Container>
@@ -74,10 +102,16 @@ const ManageOrder = () => {
                                     <Typography variant="h6" sx={{ my: 1 }}><b>Product Id:</b> {order.productId}</Typography>
                                     <Typography variant="h6" sx={{ my: 1 }}><b>Product Title:</b> {order.productTitle}</Typography>
                                     <Typography variant="h6" sx={{ my: 1 }}><b>Quantity:</b> {order.quantity}</Typography>
-                                    <Typography variant="h6" sx={{ my: 1 }}><b>Status:</b> {order.status}</Typography>
+                                    <Typography variant="h6" sx={{ my: 1 }} style={
+                                        order?.status === 'shipped' ? shippedStyle : pendingStyle
+                                    }><b>Status:</b> {order.status}</Typography>
                                     <hr />
                                     <Button variant="contained" color="warning" sx={{ my: 1, mr: 1 }} onClick={() => handleStatusUpdate(order._id)}>Update Status</Button>
-                                    <Button variant="outlined" color="error" onClick={() => handleCancelButton(order._id)}>Cancel Order</Button>
+
+                                    <Button variant="outlined" color="error" onClick={() => {
+                                        handleClickOpen();
+                                        setOrderId(order._id);
+                                    }}>Cancel Order</Button>
                                 </Paper>
                             </Grid>
                         ))
@@ -88,6 +122,41 @@ const ManageOrder = () => {
                         Status Updated Successfully!
                     </Alert>
                 </Snackbar>
+
+                <Snackbar open={cancelOpen} autoHideDuration={6000} onClose={handleCancelClose}>
+                    <Alert onClose={handleCancelClose} severity="error" sx={{ width: '100%' }}>
+                        Order Cancelled!
+                    </Alert>
+                </Snackbar>
+                <>
+                    <Dialog
+                        open={alertOpen}
+                        onClose={handleAlertClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"Order Cancel Confirmation"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Are you sure about cancelling the order?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => {
+                                handleAlertClose();
+                                setConfirm(false);
+                            }}>No</Button>
+                            <Button onClick={() => {
+                                handleAlertClose();
+                                setConfirm(true);
+                            }} autoFocus>
+                                Cancel Order
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </>
             </Box>
         </Container>
     );

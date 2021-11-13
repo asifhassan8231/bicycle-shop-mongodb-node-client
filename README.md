@@ -1,9 +1,13 @@
-# Getting Started with Create React App
+# Full stack bicycle shop website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bicycle shop website implemented using React, Firebase, React Router, Node, Express, Mongodb [Live Link](https://volcano-bicycle.web.app/).
 
-## Available Scripts
+## Key Features
 
-In the project directory, you can run:
+- User can choose and purchase Bicycle from large Collection.
+-  Implementation of Dashboard with different features for both user and admin.
+- A User can manage their orders and  give a review. His/Her review will be shown in Home page.
+- An admin can manage both orders and products. Also can add new product and make new admin.
+- Admin's features is protected by React Router Private Route.
 
 
