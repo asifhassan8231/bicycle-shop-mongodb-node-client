@@ -9,5 +9,5 @@ Bicycle shop website implemented using React, Firebase, React Router, Node, Expr
 - A User can manage their orders and  give a review. His/Her review will be shown in Home page.
 - An admin can manage both orders and products. Also can add new product and make new admin.
 - Admin's features is protected by React Router Private Route.
-
+- Admin email: admin@admin.com password:123456
 
